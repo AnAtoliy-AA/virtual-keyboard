@@ -1,0 +1,23 @@
+
+.screen {
+    width: 700px;
+    height: 100px
+}
+
+.virtualKeyboard {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 750px;
+    /* justify-content: space-between; */
+    text-align: center;
+}
+
+.virtualKeyboard div {
+    margin:4px;
+}
+/* .keyboardKey {
+    background-color: gray;
+    width: 40px;
+    height: 40px;
+    margin: 5px;
+} */
