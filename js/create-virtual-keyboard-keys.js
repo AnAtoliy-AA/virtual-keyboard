@@ -1,5 +1,5 @@
 import { KeyboardKey } from './keyboard-key.js';
-export function createKeyboardKeys() {
+export function createVirtualKeyboardKeys() {
 
     const keyArr = [
         new KeyboardKey('', '~', 1, 1),

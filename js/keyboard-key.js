@@ -5,9 +5,9 @@ export class KeyboardKey {
         this.valueLabel = valueLabel;
         this.row = row;
         this.position = position;
-       // this.id = `key_${valueLabel}`;
+        this.id = `key_${valueLabel}`;
 
-        
+
         // this.width = width;
         // this.height = 40;
         // this.fontColor = fontColor;

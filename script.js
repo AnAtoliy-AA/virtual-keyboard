@@ -1,11 +1,9 @@
-import { createVirtualKeyboard } from './js/create-virtual-keyboard';
-import { createScreen } from './js/create-screen';
-import { addActiveKeyboardKey } from './js/add-active-keyboard-key';
+import { createDomScreen } from './js/create-dom-screen';
+import { VirtualKeyboard } from './js/virtual-keyboard';
 
 document.body.onload = runVirtualKeyboardApp;
 
 function runVirtualKeyboardApp() {
-    createScreen();
-    createVirtualKeyboard();
-    addActiveKeyboardKey();
+    createDomScreen();
+    const keyboard = new VirtualKeyboard();
 }
