@@ -1,10 +1,10 @@
 
-.screen {
+.virtual-screen {
     width: 700px;
     height: 100px
 }
 
-.virtualKeyboard {
+.virtual-keyboard {
     display: flex;
     flex-wrap: wrap;
     max-width: 750px;
@@ -12,12 +12,17 @@
     text-align: center;
 }
 
-.virtualKeyboard div {
-    margin:4px;
-}
-/* .keyboardKey {
-    background-color: gray;
+
+.keyboard__key {
+    background-color: #7a8684;
+    color: #fff;
     width: 40px;
     height: 40px;
-    margin: 5px;
-} */
+    margin: 4px;
+}
+.keyboard__key_sized {
+  width: 80px;
+}
+.keyboard__key_active {
+    background-color: #e4d565;
+}
