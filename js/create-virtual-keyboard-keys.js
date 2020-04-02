@@ -2,7 +2,7 @@ import { KeyboardKey } from './keyboard-key.js';
 export function createVirtualKeyboardKeys() {
 
     const keyArr = [
-        new KeyboardKey('', '~', 1, 1),
+        new KeyboardKey('`', '~', 1, 1),
         new KeyboardKey('1', '1', 1, 2),
         new KeyboardKey('2', '2', 1, 3),
         new KeyboardKey('3', '3', 1, 4),
@@ -15,10 +15,10 @@ export function createVirtualKeyboardKeys() {
         new KeyboardKey('0', '0', 1, 11),
         new KeyboardKey('-', '-', 1, 12),
         new KeyboardKey('=', '=', 1, 13),
-        new KeyboardKey('', 'Backspace', 1, 14),
+        new KeyboardKey('backspace', 'Backspace', 1, 14, 110),
 
 
-        new KeyboardKey('', 'Tab', 1, 1),
+        new KeyboardKey('', 'Tab', 2, 1, 60),
         new KeyboardKey('q', 'Q', 2, 2),
         new KeyboardKey('w', 'W', 2, 3),
         new KeyboardKey('e', 'E', 2, 4),
@@ -29,10 +29,49 @@ export function createVirtualKeyboardKeys() {
         new KeyboardKey('i', 'I', 2, 9),
         new KeyboardKey('o', 'O', 2, 10),
         new KeyboardKey('p', 'P', 2, 11),
-        new KeyboardKey('', '[', 2, 12),
-        new KeyboardKey('', ']', 2, 13),
-        new KeyboardKey('', '/', 2, 14),
-        new KeyboardKey('', 'DEL', 2, 15)
+        new KeyboardKey('[', '[', 2, 12),
+        new KeyboardKey(']', ']', 2, 13),
+        new KeyboardKey('\\', '\\', 2, 14),
+        new KeyboardKey('', 'DEL', 2, 15),
+
+        new KeyboardKey('', 'Caps Lock', 3, 1, 90),
+        new KeyboardKey('a', 'A', 3, 2),
+        new KeyboardKey('s', 'S', 3, 3),
+        new KeyboardKey('d', 'D', 3, 4),
+        new KeyboardKey('f', 'F', 3, 5),
+        new KeyboardKey('g', 'G', 3, 6),
+        new KeyboardKey('h', 'H', 3, 7),
+        new KeyboardKey('j', 'J', 3, 8),
+        new KeyboardKey('k', 'K', 3, 9),
+        new KeyboardKey('l', 'L', 3, 10),
+        new KeyboardKey(';', ';', 3, 11),
+        new KeyboardKey('', '\'', 3, 12),
+        new KeyboardKey('', 'Enter', 3, 13, 105),
+
+        new KeyboardKey('', 'Shift', 4, 1, 110),
+        // new KeyboardKey('\\', '\\', 4, 2),
+        new KeyboardKey('z', 'Z', 4, 2),
+        new KeyboardKey('x', 'X', 4, 3),
+        new KeyboardKey('c', 'C', 4, 4),
+        new KeyboardKey('v', 'V', 4, 5),
+        new KeyboardKey('b', 'B', 4, 6),
+        new KeyboardKey('n', 'N', 4, 7),
+        new KeyboardKey('m', 'M', 4, 8),
+        new KeyboardKey(',', ',', 4, 9),
+        new KeyboardKey('.', '.', 4, 10),
+        new KeyboardKey('/', '/', 4, 11),
+        new KeyboardKey('', '&uarr;', 4, 12),
+        new KeyboardKey('', 'Shift', 4, 13, 85),
+
+        new KeyboardKey('', 'Ctrl', 5, 1),
+        new KeyboardKey('', 'Win', 5, 2),
+        new KeyboardKey('', 'Alt', 5, 3),
+        new KeyboardKey('', 'Space', 5, 4, 345),
+        new KeyboardKey('', 'Alt', 5, 5),
+        new KeyboardKey('', '&larr;', 5, 7),
+        new KeyboardKey('', '&darr;', 5, 8),
+        new KeyboardKey('', '&rarr;', 5, 9),
+        new KeyboardKey('', 'Ctrl', 5, 6),
     ];
     return keyArr;
 }

@@ -5,15 +5,15 @@ import { createDomKeyboard } from './create-dom-keyboard';
 export class VirtualKeyboard {
     constructor() {
         this.vKeys = createVirtualKeyboardKeys();
-        
+
         this.domScreen = document.querySelector('.virtual-screen');
         this.domKeyboard = createDomKeyboard();
         this.addActiveKeyboardKey();
     }
 
     addActiveKeyboardKey() {
-      
-      this.domKeyboard.forEach(e => {
+
+        this.domKeyboard.forEach(e => {
 
             e.addEventListener('click', (event) => {
 
@@ -26,8 +26,33 @@ export class VirtualKeyboard {
     }
 
     pressKey(event) {
-       let vKey  = this.vKeys.find(el => el.id === event.target.id);
+        let vKey = this.vKeys.find(el => el.id === event.target.id);
         console.log('Press Key: ', vKey);
-        this.domScreen.textContent += vKey.value;
+
+        let value = vKey.value;
+
+        switch (value) {
+            case 'backspace':
+                    this.vScreen.removeLastSymbol();
+                    break;
+            default: 
+            this.vScreen.addSymbolToScreen(value);
+        }
+
+
+
+        // if (value === 'backspace') {
+        //     this.vScreen.removeLastSymbol(value);
+        // } else {
+
+        //     this.vScreen.addSymbolToScreen(value);
+        // }
+
+
+       
+    }
+
+    setScreen(screen) {
+        this.vScreen = screen;
     }
 }

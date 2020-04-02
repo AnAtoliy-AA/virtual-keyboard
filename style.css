@@ -1,13 +1,16 @@
 
 .virtual-screen {
-    width: 700px;
-    height: 100px
+    width: 100%;
+    max-width: 720px;
+    height: 100px;
+    margin-left: 0.4%;
 }
 
-.virtual-keyboard {
+.keyboard__row {
     display: flex;
-    flex-wrap: wrap;
-    max-width: 750px;
+    max-width: 768px;
+    /* flex-wrap: wrap;
+    width: 750px; */
     /* justify-content: space-between; */
     text-align: center;
 }
@@ -16,12 +19,17 @@
 .keyboard__key {
     background-color: #7a8684;
     color: #fff;
-    width: 40px;
-    height: 40px;
-    margin: 4px;
+    height: 30px;
+    margin: 0.5%;
+    border-radius: 5px;
+    padding-top: 1%;
+    
 }
 .keyboard__key_sized {
   width: 80px;
+}
+.keyboard__key_space {
+    width: 200px;
 }
 .keyboard__key_active {
     background-color: #e4d565;
