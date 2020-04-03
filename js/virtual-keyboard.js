@@ -8,7 +8,7 @@ export class VirtualKeyboard {
 
         this.domScreen = document.querySelector('.virtual-screen');
         this.domKeyboard = createDomKeyboard();
-        this.domKeys = this.getDomKeys();
+        this.domKeys = this.getDomKeys(); 
         this.addActiveKeyboardKey();
         this.bindPhysicalKeyboardEvents();
         this.capsLockEnabled = false;
@@ -47,13 +47,6 @@ export class VirtualKeyboard {
         const domKeys = [...this.domKeys];
         const removeClassKeyActive = this.removeClassKeyActive;
 
-        // document.addEventListener('keypress', (event) => {
-        //    // console.log(event);
-        //     if (event.id == '16') && (event.id == '18') {
-        //     
-        //         console.log('CHANGE LANG');
-        //     }
-        // });
 
         document.addEventListener('keydown', (event) => {
 
@@ -67,7 +60,7 @@ export class VirtualKeyboard {
                 }
             }
             event.preventDefault();
-         //   console.log('keepPressedButtonsArray', this.keepPressedButtonsArray);
+         
             this.addKeepPressedButtonsArray(activeKey.id);
             this.pressKey(event);
 
@@ -87,14 +80,14 @@ export class VirtualKeyboard {
       if  (this.keepPressedButtonsArray.indexOf(id) === -1) {
         this.keepPressedButtonsArray.push(id);
       } 
-     //   console.log('add keepPressedButtonsArray', this.keepPressedButtonsArray);
+     
     }
     removeKeepPressedButtonsArray(id) {
-    //    console.log('id',id);
+    
         const index = this.keepPressedButtonsArray.indexOf(id);
-     //   console.log('index',index);
+    
         this.keepPressedButtonsArray.splice(index, 1);
-     //   console.log('delete keepPressedButtonsArray', this.keepPressedButtonsArray);
+     
     }
 
 
@@ -104,28 +97,43 @@ export class VirtualKeyboard {
         document.getElementById('20').classList.toggle('keyboard__caps-lock_active');
     }
 
-    prepareSymbolToShowInScreen(value) {
-       
-       
+    prepareSymbolToShowInScreen(vKey) {
         let result = '';
-        result = this.capsLockEnabled ? value.toUpperCase() : value.toLowerCase();
+        result = this.englishLanguage ? vKey.value : vKey.rusValue;
+       
+        result = this.capsLockEnabled ? result.toUpperCase() : result.toLowerCase();
         return result;
     }
     analysePressedKeys() {
        
-       // console.log('delete keepPressedButtonsArray', this.keepPressedButtonsArray);
+      
         if (this.keepPressedButtonsArray.filter(e => e == '18' || e == '16').length === 2) {
            
-            
+            this.toggleEnglishLanguage();
             console.log('Change Locale');
         }
     }
+    toggleEnglishLanguage() {
+        this.englishLanguage = !this.englishLanguage;
+       console.log(this.domKeys);
+        this.domKeys.forEach(el => {
+            const key = this.vKeys.find(e => {
+               return e.id == el.id;
+            });
+           
+            const engVal = key.valueLabel;
+            const rusVal = key.rusValueLabel;
+            
+            el.innerHTML = this.englishLanguage ? engVal : rusVal;
+                   
+        });
+    }
+
     pressKey(event) {
         this.analysePressedKeys();
         
         let vKey = this.vKeys.find(el => (el.id == event.target.id) || (el.id == event.keyCode));
-        let value = vKey.value;
-        switch (value) {
+        switch (vKey.value) {
             case 'capsLock':
                 this.toggleCapsLock();
                 break;
@@ -139,7 +147,7 @@ export class VirtualKeyboard {
                 this.vScreen.addTabToScreen();
                 break;
             default:
-                this.vScreen.addSymbolToScreen(this.prepareSymbolToShowInScreen(value));
+                this.vScreen.addSymbolToScreen(this.prepareSymbolToShowInScreen(vKey));
         }
     }
 
