@@ -11,6 +11,8 @@ export class VirtualKeyboard {
         this.domKeys = this.getDomKeys();
         this.addActiveKeyboardKey();
         this.bindPhysicalKeyboardEvents();
+        this.capsLockEnabled = false;
+        
     }
 
     getDomKeys() {
@@ -20,12 +22,17 @@ export class VirtualKeyboard {
     addActiveKeyboardKey() {
 
         this.domKeys.forEach(e => {
-            e.addEventListener('click', (event) => {
-                this.domKeys.forEach(el => this.removeClassKeyActive(el));
-                event.target.classList.add('keyboard__key_active');
-                this.pressKey(event);
 
+            e.addEventListener('mousedown', (event) => {
+                //CAPS LOCK
+                if (event.target.id !== '20') {
+                    event.target.classList.add('keyboard__key_active');
+                }
+                this.pressKey(event);
             });
+            e.addEventListener('mouseup', () => {
+                this.domKeys.forEach(el => this.removeClassKeyActive(el));
+            })
         })
     }
 
@@ -38,33 +45,57 @@ export class VirtualKeyboard {
         const domKeys = [...this.domKeys];
         const removeClassKeyActive = this.removeClassKeyActive;
 
-        document.addEventListener('keydown',(event) => {
+        document.addEventListener('keydown', (event) => {
 
             const activeKey = domKeys.find(e => {
                 return e.id == event.keyCode;
             });
 
             if (!!activeKey) {
-                domKeys.forEach(el => removeClassKeyActive(el));
-                activeKey.classList.add('keyboard__key_active');
-           }
-          event.preventDefault();
-       
-         this.pressKey(event);
+                if (activeKey.id !== '20') {
+                    activeKey.classList.add('keyboard__key_active');
+                }
+            }
+            event.preventDefault();
+
+            this.pressKey(event);
 
         });
+
+        document.addEventListener('keyup', () => {
+            domKeys.forEach(el => removeClassKeyActive(el));
+        })
     }
 
+    toggleCapsLock() {
+        this.capsLockEnabled = !this.capsLockEnabled;
+        document.getElementById('20').classList.toggle('keyboard__caps-lock_active');
+    }
+
+    prepareSymbolToShowInScreen(value) {
+        let result = '';
+        result = this.capsLockEnabled ? value.toUpperCase() : value.toLowerCase();
+        return result;
+    }
 
     pressKey(event) {
-        let vKey = this.vKeys.find(el => (el.id == event.target.id)||(el.id == event.keyCode));
+        let vKey = this.vKeys.find(el => (el.id == event.target.id) || (el.id == event.keyCode));
         let value = vKey.value;
         switch (value) {
+            case 'capsLock':
+                this.toggleCapsLock();
+                break;
             case 'backspace':
                 this.vScreen.removeLastSymbol();
                 break;
+            case 'space':
+                this.vScreen.addSpaceToScreen();
+                break;
+            case 'tab':
+                this.vScreen.addTabToScreen();
+                break;
             default:
-                this.vScreen.addSymbolToScreen(value);
+                this.vScreen.addSymbolToScreen(this.prepareSymbolToShowInScreen(value));
         }
     }
 

@@ -34,3 +34,7 @@
 .keyboard__key_active {
     background-color: #e4d565;
 }
+
+.keyboard__caps-lock_active {
+    background-color: #009900;
+}

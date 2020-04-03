@@ -9,19 +9,22 @@ export class VirtualScreen {
         screen.classList.add('virtual-screen');
         let domScreen = document.body.appendChild(screen);
         domScreen.textContent = '';
-        return domScreen;
-      
+        return domScreen;  
     }
-
 
     addSymbolToScreen(value) {
         this.domScreen.textContent += value;
-        console.log('addSymbolToScreen: ', this.domScreen.textContent);
-        
+        console.log('addSymbolToScreen: ', this.domScreen.textContent);    
     }
 
     removeLastSymbol() {
         this.domScreen.textContent = this.domScreen.textContent.slice(0, -1); 
     }
-
+    
+    addSpaceToScreen() {
+        this.domScreen.textContent += '\u{0020}';
+    }
+    addTabToScreen() {
+        this.domScreen.textContent += '\u{0009}';
+    }
 }

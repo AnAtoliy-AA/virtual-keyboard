@@ -18,7 +18,7 @@ export function createVirtualKeyboardKeys() {
         new KeyboardKey('backspace', 'Backspace', 8, 1, 14, 110),
 
 
-        new KeyboardKey('', 'Tab', 9, 2, 1, 60),
+        new KeyboardKey('tab', 'Tab', 9, 2, 1, 60),
         new KeyboardKey('q', 'Q', 81, 2, 2),
         new KeyboardKey('w', 'W', 87, 2, 3),
         new KeyboardKey('e', 'E', 69, 2, 4),
@@ -34,7 +34,7 @@ export function createVirtualKeyboardKeys() {
         new KeyboardKey('\\', '\\', 220, 2, 14),
         new KeyboardKey('', 'DEL', 46, 2, 15),
 
-        new KeyboardKey('', 'Caps Lock', 20, 3, 1, 90),
+        new KeyboardKey('capsLock', 'Caps Lock', 20, 3, 1, 90),
         new KeyboardKey('a', 'A', 65, 3, 2),
         new KeyboardKey('s', 'S', 83, 3, 3),
         new KeyboardKey('d', 'D', 68, 3, 4),
@@ -65,7 +65,7 @@ export function createVirtualKeyboardKeys() {
         new KeyboardKey('', 'Ctrl', 17, 5, 1),
         new KeyboardKey('', 'Win', 91, 5, 2),
         new KeyboardKey('', 'Alt', 18, 5, 3),
-        new KeyboardKey('', 'Space', 32, 5, 4, 345),
+        new KeyboardKey('space', 'Space', 32, 5, 4, 345),
         new KeyboardKey('', 'Alt', 18, 5, 5),
         new KeyboardKey('', '&larr;', 37, 5, 7),
         new KeyboardKey('', '&darr;', 40, 5, 8),
