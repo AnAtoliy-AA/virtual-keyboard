@@ -12,7 +12,9 @@ export class VirtualKeyboard {
         this.addActiveKeyboardKey();
         this.bindPhysicalKeyboardEvents();
         this.capsLockEnabled = false;
-        
+        this.englishLanguage = true;
+        this.keepPressedButtonsArray = [];
+
     }
 
     getDomKeys() {
@@ -45,6 +47,14 @@ export class VirtualKeyboard {
         const domKeys = [...this.domKeys];
         const removeClassKeyActive = this.removeClassKeyActive;
 
+        // document.addEventListener('keypress', (event) => {
+        //    // console.log(event);
+        //     if (event.id == '16') && (event.id == '18') {
+        //     
+        //         console.log('CHANGE LANG');
+        //     }
+        // });
+
         document.addEventListener('keydown', (event) => {
 
             const activeKey = domKeys.find(e => {
@@ -57,15 +67,37 @@ export class VirtualKeyboard {
                 }
             }
             event.preventDefault();
-
+         //   console.log('keepPressedButtonsArray', this.keepPressedButtonsArray);
+            this.addKeepPressedButtonsArray(activeKey.id);
             this.pressKey(event);
 
         });
 
-        document.addEventListener('keyup', () => {
+        document.addEventListener('keyup', (event) => {
+            const activeKey = domKeys.find(e => {
+                return e.id == event.keyCode;
+            });
             domKeys.forEach(el => removeClassKeyActive(el));
+            this.removeKeepPressedButtonsArray(activeKey.id);
         })
+
     }
+
+    addKeepPressedButtonsArray(id) {
+      if  (this.keepPressedButtonsArray.indexOf(id) === -1) {
+        this.keepPressedButtonsArray.push(id);
+      } 
+     //   console.log('add keepPressedButtonsArray', this.keepPressedButtonsArray);
+    }
+    removeKeepPressedButtonsArray(id) {
+    //    console.log('id',id);
+        const index = this.keepPressedButtonsArray.indexOf(id);
+     //   console.log('index',index);
+        this.keepPressedButtonsArray.splice(index, 1);
+     //   console.log('delete keepPressedButtonsArray', this.keepPressedButtonsArray);
+    }
+
+
 
     toggleCapsLock() {
         this.capsLockEnabled = !this.capsLockEnabled;
@@ -73,12 +105,24 @@ export class VirtualKeyboard {
     }
 
     prepareSymbolToShowInScreen(value) {
+       
+       
         let result = '';
         result = this.capsLockEnabled ? value.toUpperCase() : value.toLowerCase();
         return result;
     }
-
+    analysePressedKeys() {
+       
+       // console.log('delete keepPressedButtonsArray', this.keepPressedButtonsArray);
+        if (this.keepPressedButtonsArray.filter(e => e == '18' || e == '16').length === 2) {
+           
+            
+            console.log('Change Locale');
+        }
+    }
     pressKey(event) {
+        this.analysePressedKeys();
+        
         let vKey = this.vKeys.find(el => (el.id == event.target.id) || (el.id == event.keyCode));
         let value = vKey.value;
         switch (value) {

@@ -1,8 +1,10 @@
 export class KeyboardKey {
 
-    constructor(value, valueLabel, keyCode, row, position, width, fontColor, backgroundColor) {
+    constructor(value, valueLabel, optionalValue, optionalValueLabel, keyCode, row, position, width) {
         this.value = value;
         this.valueLabel = valueLabel;
+        this.optionalValue = optionalValue;
+        this.optionalValueLabel = optionalValueLabel;
         this.keyCode = keyCode;
         this.row = row;
         this.position = position;
