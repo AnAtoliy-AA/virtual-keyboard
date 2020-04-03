@@ -16,6 +16,7 @@ export class VirtualScreen {
 
     addSymbolToScreen(value) {
         this.domScreen.textContent += value;
+        console.log('addSymbolToScreen: ', this.domScreen.textContent);
         
     }
 
