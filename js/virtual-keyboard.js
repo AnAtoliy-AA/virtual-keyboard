@@ -15,7 +15,7 @@ class VirtualKeyboard {
     this.addActiveKeyboardKey();
     this.bindPhysicalKeyboardEvents();
     this.capsLockEnabled = false;
-
+    this.shiftPressed = false;
     this.keepPressedButtonsArray = [];
   }
 
@@ -70,22 +70,22 @@ class VirtualKeyboard {
 
     document.addEventListener('keydown', (event) => {
       const activeKey = domKeys.find((e) => +e.id === +event.keyCode);
-
-      if (activeKey) {
+      if (typeof activeKey !== 'undefined') {
         if (activeKey.id !== '20') {
           activeKey.classList.add(this.cssClassNameConfig.keyboardKeyActive);
         }
+        this.addKeepPressedButtonsArray(activeKey.id);
+        this.pressKey(event);
       }
       event.preventDefault();
-
-      this.addKeepPressedButtonsArray(activeKey.id);
-      this.pressKey(event);
     });
 
     document.addEventListener('keyup', (event) => {
       const activeKey = domKeys.find((e) => +e.id === +event.keyCode);
-      domKeys.forEach((el) => this.removeClassKeyActive(el));
-      this.removeKeepPressedButtonsArray(activeKey.id);
+      if (typeof activeKey !== 'undefined') {
+        domKeys.forEach((el) => this.removeClassKeyActive(el));
+        this.removeKeepPressedButtonsArray(activeKey.id);
+      }
     });
   }
 
@@ -108,9 +108,39 @@ class VirtualKeyboard {
 
   prepareSymbolToShowInScreen(vKey) {
     let result = '';
-    result = this.englishLanguage ? vKey.value : vKey.rusValue;
-
-    result = this.capsLockEnabled ? result.toUpperCase() : result.toLowerCase();
+    if (this.englishLanguage) {
+      if (this.capsLockEnabled) {
+        if (this.shiftPressed) {
+          result = vKey.alternativeValue || vKey.value.toLowerCase();
+        } else {
+          result = vKey.value.toUpperCase();
+        }
+       
+      } else {
+        if (this.shiftPressed) {
+          result = vKey.alternativeValue || vKey.value.toUpperCase();
+        } else {
+          result = vKey.value.toLowerCase();
+        }
+      
+      }
+    } else {
+      if (this.capsLockEnabled) {
+        if (this.shiftPressed) {
+          result = vKey.AlternativeValue || vKey.rusValue.toLowerCase();
+        } else {
+          result = vKey.rusValue.toUpperCase();
+        }
+       
+      } else {
+        if (this.shiftPressed) {
+          result = vKey.rusAlternativeValue || vKey.rusValue.toUpperCase();
+        } else {
+          result = vKey.rusValue.toLowerCase();
+        }
+      
+      }
+    }
     return result;
   }
 
@@ -119,6 +149,22 @@ class VirtualKeyboard {
     if (this.keepPressedButtonsArray.filter((e) => e === '18' || e === '16').length === 2) {
       this.toggleEnglishLanguage();
     }
+    // Shift pressed
+    if (this.keepPressedButtonsArray.filter((e) => e === '16').length === 1) {
+      this.enableShift();
+    }
+    // Shift unpressed
+    if (this.keepPressedButtonsArray.filter((e) => e === '16').length === 0) {
+      this.disableShift();
+    }
+  }
+
+  enableShift() {
+    this.shiftPressed = true;
+  }
+
+  disableShift() {
+    this.shiftPressed = false;
   }
 
   toggleEnglishLanguage() {
@@ -146,11 +192,23 @@ class VirtualKeyboard {
       case 'backspace':
         this.vScreen.removeLastSymbol();
         break;
+      case 'del':
+        this.vScreen.removeRightSymbol();
+        break;
       case 'space':
         this.vScreen.addSpaceToScreen();
         break;
       case 'tab':
         this.vScreen.addTabToScreen();
+        break;
+      case 'enter':
+        this.vScreen.addEnterToScreen();
+        break;
+      case 'leftArrow':
+        this.vScreen.leftArrowMove();
+        break;
+      case 'rightArrow':
+        this.vScreen.rightArrowMove();
         break;
       default:
         this.vScreen.addSymbolToScreen(this.prepareSymbolToShowInScreen(vKey));
