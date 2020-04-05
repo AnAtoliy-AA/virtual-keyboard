@@ -13,14 +13,11 @@ class VirtualScreen {
   }
 
   addSymbolToScreen(value) {
-    // this.domScreen.textContent += value;
     this.domScreen.setRangeText(value);
     this.rightArrowMove();
   }
 
   removeLastSymbol() {
-  //  this.domScreen.textContent = this.domScreen.textContent.slice(0, -1);
-  // this.domScreen.setRangeText(' ', 0, -1);
     this.domScreen.selectionEnd -= 1;
     this.domScreen.selectionEnd += 1;
     this.domScreen.setRangeText('');
@@ -32,14 +29,11 @@ class VirtualScreen {
   }
 
   addSpaceToScreen() {
-    // this.domScreen.textContent += '\u{0020}';
     this.domScreen.setRangeText('\u{0020}');
-    // this.domScreen.setRangeText('\u{0020}', end);
     this.rightArrowMove();
   }
 
   addEnterToScreen() {
-    // this.domScreen.textContent += '\n';
     this.domScreen.setRangeText('\n');
     this.rightArrowMove();
   }
@@ -55,7 +49,6 @@ class VirtualScreen {
   }
 
   addTabToScreen() {
-  //  this.domScreen.textContent += '\u{0009}';
     this.domScreen.setRangeText('\u{0009}');
     this.rightArrowMove();
   }

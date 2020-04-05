@@ -115,31 +115,21 @@ class VirtualKeyboard {
         } else {
           result = vKey.value.toUpperCase();
         }
-       
+      } else if (this.shiftPressed) {
+        result = vKey.alternativeValue || vKey.value.toUpperCase();
       } else {
-        if (this.shiftPressed) {
-          result = vKey.alternativeValue || vKey.value.toUpperCase();
-        } else {
-          result = vKey.value.toLowerCase();
-        }
-      
+        result = vKey.value.toLowerCase();
       }
+    } else if (this.capsLockEnabled) {
+      if (this.shiftPressed) {
+        result = vKey.alternativeValue || vKey.rusValue.toLowerCase();
+      } else {
+        result = vKey.rusValue.toUpperCase();
+      }
+    } else if (this.shiftPressed) {
+      result = vKey.rusAlternativeValue || vKey.rusValue.toUpperCase();
     } else {
-      if (this.capsLockEnabled) {
-        if (this.shiftPressed) {
-          result = vKey.AlternativeValue || vKey.rusValue.toLowerCase();
-        } else {
-          result = vKey.rusValue.toUpperCase();
-        }
-       
-      } else {
-        if (this.shiftPressed) {
-          result = vKey.rusAlternativeValue || vKey.rusValue.toUpperCase();
-        } else {
-          result = vKey.rusValue.toLowerCase();
-        }
-      
-      }
+      result = vKey.rusValue.toLowerCase();
     }
     return result;
   }
