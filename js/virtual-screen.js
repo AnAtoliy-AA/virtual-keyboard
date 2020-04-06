@@ -38,11 +38,6 @@ class VirtualScreen {
     this.rightArrowMove();
   }
 
-  leftArrowMove() {
-    this.domScreen.selectionEnd -= 1;
-    this.domScreen.selectionStart = this.domScreen.selectionEnd;
-  }
-
   rightArrowMove() {
     this.domScreen.selectionEnd += 1;
     this.domScreen.selectionStart = this.domScreen.selectionEnd;

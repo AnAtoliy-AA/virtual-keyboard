@@ -3,7 +3,7 @@ import createVirtualKeyboardKeys from './create-virtual-keyboard-keys';
 
 class VirtualKeyboard {
   constructor() {
-    this.englishLanguage = sessionStorage.getItem('englishLanguage') === 'true';
+    this.englishLanguage = sessionStorage.englishLanguage === 'true';
     this.cssClassNameConfig = {
       keyboardKeyActive: 'keyboard__key_active',
     };
@@ -22,12 +22,14 @@ class VirtualKeyboard {
   createDomKeyboard() {
     const { body } = document;
     const keyboard = document.createElement('div');
+    const keyArr = createVirtualKeyboardKeys();
+
     body.appendChild(keyboard);
     keyboard.classList.add('virtual-keyboard');
-    const keyArr = createVirtualKeyboardKeys();
 
     for (let i = 1; i < 6; i += 1) {
       const domKeyboardRow = document.createElement('div');
+
       domKeyboardRow.id = `row_${i}`;
       domKeyboardRow.classList.add('keyboard__row');
       keyboard.appendChild(domKeyboardRow);
@@ -36,6 +38,7 @@ class VirtualKeyboard {
     for (let i = 0; i < keyArr.length; i += 1) {
       const kKey = keyArr[i];
       const el = document.createElement('div');
+
       el.innerHTML = this.englishLanguage ? kKey.valueLabel : kKey.rusValueLabel;
       el.style.width = `${kKey.width}px`;
       el.classList.add('keyboard__key');
@@ -70,22 +73,26 @@ class VirtualKeyboard {
 
     document.addEventListener('keydown', (event) => {
       const activeKey = domKeys.find((e) => +e.id === +event.keyCode);
-      if (typeof activeKey !== 'undefined') {
+
+      if (activeKey) {
         if (activeKey.id !== '20') {
           activeKey.classList.add(this.cssClassNameConfig.keyboardKeyActive);
         }
         this.addKeepPressedButtonsArray(activeKey.id);
         this.pressKey(event);
       }
+
       event.preventDefault();
     });
 
     document.addEventListener('keyup', (event) => {
       const activeKey = domKeys.find((e) => +e.id === +event.keyCode);
-      if (typeof activeKey !== 'undefined') {
+
+      if (activeKey) {
         domKeys.forEach((el) => this.removeClassKeyActive(el));
         this.removeKeepPressedButtonsArray(activeKey.id);
       }
+      this.changeVirtualKeyboardKeyCase();
     });
   }
 
@@ -131,6 +138,7 @@ class VirtualKeyboard {
     } else {
       result = vKey.rusValue.toLowerCase();
     }
+
     return result;
   }
 
@@ -147,6 +155,7 @@ class VirtualKeyboard {
     if (this.keepPressedButtonsArray.filter((e) => e === '16').length === 0) {
       this.disableShift();
     }
+    this.changeVirtualKeyboardKeyCase();
   }
 
   enableShift() {
@@ -155,6 +164,22 @@ class VirtualKeyboard {
 
   disableShift() {
     this.shiftPressed = false;
+  }
+
+  changeVirtualKeyboardKeyCase() {
+    if (this.shiftPressed) {
+      this.domKeys.forEach((el) => {
+        const domKey = el;
+
+        domKey.innerHTML = this.capsLockEnabled ? domKey.innerHTML.toLowerCase() : domKey.innerHTML.toUpperCase();
+      });
+    } else {
+      this.domKeys.forEach((el) => {
+        const domKey = el;
+
+        domKey.innerHTML = this.capsLockEnabled ? domKey.innerHTML.toUpperCase() : domKey.innerHTML.toLowerCase();
+      });
+    }
   }
 
   toggleEnglishLanguage() {
@@ -167,6 +192,7 @@ class VirtualKeyboard {
       const key = this.vKeys.find((e) => e.id === +domKey.id);
       const engVal = key.valueLabel;
       const rusVal = key.rusValueLabel;
+
       domKey.innerHTML = this.englishLanguage ? engVal : rusVal;
     });
   }
@@ -175,6 +201,7 @@ class VirtualKeyboard {
     this.analysePressedKeys();
 
     const vKey = this.vKeys.find((el) => el.id === +event.target.id || el.id === +event.keyCode);
+
     switch (vKey.value) {
       case 'capsLock':
         this.toggleCapsLock();
@@ -193,12 +220,6 @@ class VirtualKeyboard {
         break;
       case 'enter':
         this.vScreen.addEnterToScreen();
-        break;
-      case 'leftArrow':
-        this.vScreen.leftArrowMove();
-        break;
-      case 'rightArrow':
-        this.vScreen.rightArrowMove();
         break;
       default:
         this.vScreen.addSymbolToScreen(this.prepareSymbolToShowInScreen(vKey));
