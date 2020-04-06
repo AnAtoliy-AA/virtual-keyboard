@@ -1,9 +1,16 @@
 
 import createVirtualKeyboardKeys from './create-virtual-keyboard-keys';
 
+const KEY_CODES = {
+  SHIFT: '16',
+  CAPSLOCK: '20',
+  ALT: '18',
+  CTRL: '17',
+};
+
 class VirtualKeyboard {
   constructor() {
-    this.englishLanguage = sessionStorage.englishLanguage === 'true';
+    this.englishLanguage = sessionStorage.lastSelectedLanguage === 'true';
     this.cssClassNameConfig = {
       keyboardKeyActive: 'keyboard__key_active',
     };
@@ -53,7 +60,7 @@ class VirtualKeyboard {
     this.domKeys.forEach((e) => {
       e.addEventListener('mousedown', (event) => {
         // CAPS LOCK
-        if (event.target.id !== '20') {
+        if (event.target.id !== KEY_CODES.CAPSLOCK) {
           event.target.classList.add(this.cssClassNameConfig.keyboardKeyActive);
         }
         this.pressKey(event);
@@ -75,7 +82,7 @@ class VirtualKeyboard {
       const activeKey = domKeys.find((e) => +e.id === +event.keyCode);
 
       if (activeKey) {
-        if (activeKey.id !== '20') {
+        if (activeKey.id !== KEY_CODES.CAPSLOCK) {
           activeKey.classList.add(this.cssClassNameConfig.keyboardKeyActive);
         }
         this.addKeepPressedButtonsArray(activeKey.id);
@@ -92,7 +99,11 @@ class VirtualKeyboard {
         domKeys.forEach((el) => this.removeClassKeyActive(el));
         this.removeKeepPressedButtonsArray(activeKey.id);
       }
-      this.changeVirtualKeyboardKeyCase();
+
+      if (event.keyCode === KEY_CODES.SHIFT) {
+        this.disableShift();
+      }
+      this.analysePressedKeys();
     });
   }
 
@@ -110,7 +121,7 @@ class VirtualKeyboard {
 
   toggleCapsLock() {
     this.capsLockEnabled = !this.capsLockEnabled;
-    document.getElementById('20').classList.toggle('keyboard__caps-lock_active');
+    document.getElementById(KEY_CODES.CAPSLOCK).classList.toggle('keyboard__caps-lock_active');
   }
 
   prepareSymbolToShowInScreen(vKey) {
@@ -144,18 +155,19 @@ class VirtualKeyboard {
 
   analysePressedKeys() {
     // Alt+Shift
-    if (this.keepPressedButtonsArray.filter((e) => e === '18' || e === '16').length === 2) {
+    if (this.keepPressedButtonsArray.filter((e) => e === KEY_CODES.ALT
+      || e === KEY_CODES.SHIFT).length === 2) {
       this.toggleEnglishLanguage();
     }
     // Shift pressed
-    if (this.keepPressedButtonsArray.filter((e) => e === '16').length === 1) {
+    if (this.keepPressedButtonsArray.filter((e) => e === KEY_CODES.SHIFT).length === 1) {
       this.enableShift();
     }
     // Shift unpressed
-    if (this.keepPressedButtonsArray.filter((e) => e === '16').length === 0) {
+    if (this.keepPressedButtonsArray.filter((e) => e === KEY_CODES.SHIFT).length === 0) {
       this.disableShift();
     }
-    this.changeVirtualKeyboardKeyCase();
+    this.setVirtualKeyboardKeyCase();
   }
 
   enableShift() {
@@ -166,26 +178,28 @@ class VirtualKeyboard {
     this.shiftPressed = false;
   }
 
-  changeVirtualKeyboardKeyCase() {
-    if (this.shiftPressed) {
-      this.domKeys.forEach((el) => {
+  setVirtualKeyboardKeyCase() {
+    const domKeys = [...this.domKeys];
+
+    domKeys
+      // filters only letters to change regiter
+      .filter((el) => el.innerHTML && el.innerHTML.length === 1)
+      .forEach((el) => {
         const domKey = el;
 
-        domKey.innerHTML = this.capsLockEnabled ? domKey.innerHTML.toLowerCase() : domKey.innerHTML.toUpperCase();
+        if ((this.shiftPressed && this.capsLockEnabled)
+          || (!this.shiftPressed && !this.capsLockEnabled)) {
+          domKey.innerHTML = domKey.innerHTML.toLowerCase();
+        } else {
+          domKey.innerHTML = domKey.innerHTML.toUpperCase();
+        }
       });
-    } else {
-      this.domKeys.forEach((el) => {
-        const domKey = el;
-
-        domKey.innerHTML = this.capsLockEnabled ? domKey.innerHTML.toUpperCase() : domKey.innerHTML.toLowerCase();
-      });
-    }
   }
 
   toggleEnglishLanguage() {
     this.englishLanguage = !this.englishLanguage;
 
-    sessionStorage.setItem('englishLanguage', this.englishLanguage);
+    sessionStorage.setItem('lastSelectedLanguage', this.englishLanguage);
 
     this.domKeys.forEach((el) => {
       const domKey = el;
