@@ -9,6 +9,7 @@ function runVirtualKeyboardApp() {
   keyboard.setScreen(screen);
 
   addInfo.innerHTML = 'OS: Windows. To change language press: Alt + Shift';
+  addInfo.classList.add('keyboard-info');
   document.body.appendChild(addInfo);
 }
 document.body.onload = runVirtualKeyboardApp;

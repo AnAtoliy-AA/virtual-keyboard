@@ -1,44 +1,69 @@
 
 .virtual-screen {
-    width: 100%;
-    max-width: 720px;
-    height: 100px;
-    margin-left: 0.4%;
+  width: 98%;
+  max-width: 756px;
+  height: 18vh;
+  min-height: 100px;
+  margin-top: 5vh;
+  margin-left: 11.5%;
+  border: 5px solid #7a8684;
+  border-radius: 12px;
+  font-family: sans-serif;
+  font-size: 1.2em;
+  outline: none;
+  resize: none;
+}
+
+.virtual-keyboard {
+  font-family: sans-serif;
+  max-width: 784px;
+  width: 100%;
+  margin-top: 2vh;
+  margin-left: 11%;
+  padding: 1% 0 1% 0;
+  background-color: #2642bf;
+  border-radius: 15px;
 }
 
 .keyboard__row {
-    display: flex;
-    max-width: 768px;
-    text-align: center;
+  display: flex;
+  flex-direction:row;
+  margin-left: 1%;
+  margin-right: 1%;
+  justify-content: space-between;
 }
-
 
 .keyboard__key {
-    background-color: #7a8684;
-    color: #fff;
-    height: 40px;
-    margin: 0.5%;
-    border-radius: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: border-radius 0.3s, background-color 0.3s, color 0.3s;
+  background-color: #7a8684;
+  color: #fff;
+  height: 40px;
+  margin: 0.5%;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-radius 0.3s, background-color 0.3s, color 0.3s;
 }
-.keyboard__key_sized {
-  width: 80px;
-}
-.keyboard__key_space {
-    width: 200px;
-}
+
 .keyboard__key:hover {
-    background-color:#ff3;
+  background-color:#ff3;
 }
+
 .keyboard__key_active {
-    background-color: #ff6;
-    color: #300;
-   border-radius: 50%;
+  background-color: #ff6;
+  color: #300;
+ border-radius: 50%;
 }
 
 .keyboard__caps-lock_active {
-    background-color: #009900;
+ background-color: #009900;
+}
+
+.keyboard-info {
+  font-family: sans-serif;
+  font-weight: bolder;
+  font-size: 2em;
+  color:#098009;
+  margin-top: 2vh;
+  margin-left: 11%;
 }
