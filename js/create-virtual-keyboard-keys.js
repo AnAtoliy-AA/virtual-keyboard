@@ -48,7 +48,7 @@ function createVirtualKeyboardKeys() {
     new KeyboardKey('\'', '\'', 'э', 'э', 222, 3, 12, 40),
     new KeyboardKey('enter', 'Enter', 'enter', 'Enter', 13, 3, 13, 105),
 
-    new KeyboardKey('', 'Shift', '', 'Shift', 16, 4, 1, 110),
+    new KeyboardKey('', 'Shift', '', 'Shift', 16, 4, 1, 110, null, null, 1),
     new KeyboardKey('z', 'z', 'я', 'я', 90, 4, 2, 40),
     new KeyboardKey('x', 'x', 'ч', 'ч', 88, 4, 3, 40),
     new KeyboardKey('c', 'c', 'с', 'с', 67, 4, 4, 40),
@@ -60,17 +60,17 @@ function createVirtualKeyboardKeys() {
     new KeyboardKey('.', '.', 'ю', 'ю', 190, 4, 10, 40, '>'),
     new KeyboardKey('/', '/', '.', '.', 191, 4, 11, 40, '?', ','),
     new KeyboardKey('▲', '▲', '▲', '▲', 38, 4, 12, 40),
-    new KeyboardKey('', 'Shift', '', 'Shift', 16, 4, 13, 85),
+    new KeyboardKey('', 'Shift', '', 'Shift', 16, 4, 13, 85, null, null, 2),
 
-    new KeyboardKey('', 'Ctrl', '', 'Ctrl', 17, 5, 1, 40),
+    new KeyboardKey('', 'Ctrl', '', 'Ctrl', 17, 5, 1, 40, null, null, 1),
     new KeyboardKey('', 'Win', '', 'Win', 91, 5, 2, 40),
-    new KeyboardKey('', 'Alt', '', 'Alt', 18, 5, 3, 40),
+    new KeyboardKey('', 'Alt', '', 'Alt', 18, 5, 3, 40, null, null, 1),
     new KeyboardKey('space', 'Space', 'space', 'Space', 32, 5, 4, 345),
-    new KeyboardKey('', 'Alt', '', 'Alt', 18, 5, 5, 40),
+    new KeyboardKey('', 'Alt', '', 'Alt', 18, 5, 5, 40, null, null, 2),
     new KeyboardKey('◄', '◄', '◄', '◄', 37, 5, 7, 40),
     new KeyboardKey('▼', '▼', '▼', '▼', 40, 5, 8, 40),
     new KeyboardKey('►', '►', '►', '►', 39, 5, 9, 40),
-    new KeyboardKey('', 'Ctrl', '', 'Ctrl', 17, 5, 6, 40),
+    new KeyboardKey('', 'Ctrl', '', 'Ctrl', 17, 5, 6, 40, null, null, 2),
   ];
   return keyArr;
 }

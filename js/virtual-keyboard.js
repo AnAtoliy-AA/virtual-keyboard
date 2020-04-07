@@ -2,12 +2,18 @@
 import createVirtualKeyboardKeys from './create-virtual-keyboard-keys';
 
 const KEY_CODES = {
-  SHIFT: '16',
+  SHIFT_LEFT: '16_1',
+  SHIFT_RIGHT: '16_2',
   CAPSLOCK: '20',
-  ALT: '18',
-  CTRL: '17',
+  ALT_LEFT: '18_1',
+  ALT_RIGHT: '18_2',
+  CTRL_LEFT: '17_1',
+  CTRL_RIGHT: '17_2',
 };
 
+function getKeyCodeFromEvent(event) {
+  return event.location !== 0 ? `${event.keyCode}_${event.location}` : `${event.keyCode}`;
+}
 class VirtualKeyboard {
   constructor() {
     this.englishLanguage = sessionStorage.lastSelectedLanguage === 'true';
@@ -34,7 +40,7 @@ class VirtualKeyboard {
     body.appendChild(keyboard);
     keyboard.classList.add('virtual-keyboard');
 
-    for (let i = 1; i < 6; i += 1) {
+    for (let i = 1; i < 6; i++) {
       const domKeyboardRow = document.createElement('div');
 
       domKeyboardRow.id = `row_${i}`;
@@ -42,7 +48,7 @@ class VirtualKeyboard {
       keyboard.appendChild(domKeyboardRow);
     }
 
-    for (let i = 0; i < keyArr.length; i += 1) {
+    for (let i = 0; i < keyArr.length; i++) {
       const kKey = keyArr[i];
       const el = document.createElement('div');
 
@@ -79,7 +85,7 @@ class VirtualKeyboard {
     const domKeys = [...this.domKeys];
 
     document.addEventListener('keydown', (event) => {
-      const activeKey = domKeys.find((e) => +e.id === +event.keyCode);
+      const activeKey = domKeys.find((e) => e.id === getKeyCodeFromEvent(event));
 
       if (activeKey) {
         if (activeKey.id !== KEY_CODES.CAPSLOCK) {
@@ -93,14 +99,14 @@ class VirtualKeyboard {
     });
 
     document.addEventListener('keyup', (event) => {
-      const activeKey = domKeys.find((e) => +e.id === +event.keyCode);
+      const activeKey = domKeys.find((e) => e.id === getKeyCodeFromEvent(event));
 
       if (activeKey) {
         domKeys.forEach((el) => this.removeClassKeyActive(el));
         this.removeKeepPressedButtonsArray(activeKey.id);
       }
 
-      if (event.keyCode === KEY_CODES.SHIFT) {
+      if (`${event.keyCode}` === KEY_CODES.SHIFT_LEFT) {
         this.disableShift();
       }
       this.analysePressedKeys();
@@ -126,6 +132,7 @@ class VirtualKeyboard {
 
   prepareSymbolToShowInScreen(vKey) {
     let result = '';
+
     if (this.englishLanguage) {
       if (this.capsLockEnabled) {
         if (this.shiftPressed) {
@@ -155,16 +162,19 @@ class VirtualKeyboard {
 
   analysePressedKeys() {
     // Alt+Shift
-    if (this.keepPressedButtonsArray.filter((e) => e === KEY_CODES.ALT
-      || e === KEY_CODES.SHIFT).length === 2) {
+    if (this.keepPressedButtonsArray.filter((e) => e === KEY_CODES.ALT_LEFT
+      || e === KEY_CODES.ALT_RIGHT
+      || e === KEY_CODES.SHIFT_LEFT || e === KEY_CODES.SHIFT_RIGHT).length === 2) {
       this.toggleEnglishLanguage();
     }
     // Shift pressed
-    if (this.keepPressedButtonsArray.filter((e) => e === KEY_CODES.SHIFT).length === 1) {
+    if (this.keepPressedButtonsArray.filter((e) => e === KEY_CODES.SHIFT_LEFT
+      || e === KEY_CODES.SHIFT_RIGHT).length === 1) {
       this.enableShift();
     }
     // Shift unpressed
-    if (this.keepPressedButtonsArray.filter((e) => e === KEY_CODES.SHIFT).length === 0) {
+    if (this.keepPressedButtonsArray.filter((e) => e === KEY_CODES.SHIFT_LEFT
+      || e === KEY_CODES.SHIFT_RIGHT).length === 0) {
       this.disableShift();
     }
     this.setVirtualKeyboardKeyCase();
@@ -203,7 +213,7 @@ class VirtualKeyboard {
 
     this.domKeys.forEach((el) => {
       const domKey = el;
-      const key = this.vKeys.find((e) => e.id === +domKey.id);
+      const key = this.vKeys.find((e) => e.id === domKey.id);
       const engVal = key.valueLabel;
       const rusVal = key.rusValueLabel;
 
@@ -214,7 +224,8 @@ class VirtualKeyboard {
   pressKey(event) {
     this.analysePressedKeys();
 
-    const vKey = this.vKeys.find((el) => el.id === +event.target.id || el.id === +event.keyCode);
+    const vKey = this.vKeys.find((el) => el.id === event.target.id
+      || el.id === getKeyCodeFromEvent(event));
 
     switch (vKey.value) {
       case 'capsLock':
